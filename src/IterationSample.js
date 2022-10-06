@@ -5,7 +5,7 @@ const IterationSample = () => {
         , { id: 2, text: '얼음' }, { id: 3, text: '눈' }, { id: 4, text: '바람' }]);
     const [inputText, setInputText] = useState('');
     const [nextId, setNextId] = useState(5);
-    const nameList = names.map((name, index) => <li key={name.id}>{name.text}</li>);
+    const nameList = names.map((name, index) => <li key={name.id} onDoubleClick={() => onRemove(name.id)}>{name.text}</li>);
 
     const onChange = (e) => setInputText(e.target.value);
     const onClick = () => {
@@ -17,6 +17,11 @@ const IterationSample = () => {
         setInputText('');
         setNextId(nextId + 1);
     }
+    const onRemove = id => {
+        const nextNames = names.filter(name => name.id !== id);
+        setNames(nextNames);
+    }
+
     return (
         <>
             <ul>
