@@ -8,6 +8,7 @@ import LifeCycleSample from './LifeCycleSample';
 import ErrorBoundary from './ErrorBoundary';
 import Counter from './Hooks/Counter';
 import Info from './Hooks/Info';
+import Average from './Hooks/Averag';
 
 // function getRandomColor() {
 //   return '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -38,7 +39,7 @@ import Info from './Hooks/Info';
 const App = () => {
   //const [visible, setVisible] = useState(false);
   return (
-    <Info />
+    <Average />
     // <div>
     //   <button onClick={() => {
     //     setVisible(!visible);
