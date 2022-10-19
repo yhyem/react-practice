@@ -36,17 +36,18 @@ import Info from './Hooks/Info';
 //   }
 // }
 const App = () => {
-  const [visible, setVisible] = useState(false);
+  //const [visible, setVisible] = useState(false);
   return (
-    <div>
-      <button onClick={() => {
-        setVisible(!visible);
-      }}>
-        {visible ? '숨기기' : '보이기'};
-      </button>
-      <hr></hr>
-      {visible && <Info></Info>}
-    </div>
+    <Counter></Counter>
+    // <div>
+    //   <button onClick={() => {
+    //     setVisible(!visible);
+    //   }}>
+    //     {visible ? '숨기기' : '보이기'};
+    //   </button>
+    //   <hr></hr>
+    //   {visible && <Info></Info>}
+    // </div>
   )
 }
 
