@@ -38,7 +38,7 @@ import Info from './Hooks/Info';
 const App = () => {
   //const [visible, setVisible] = useState(false);
   return (
-    <Counter></Counter>
+    <Info />
     // <div>
     //   <button onClick={() => {
     //     setVisible(!visible);
