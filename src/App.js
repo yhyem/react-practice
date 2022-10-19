@@ -7,6 +7,7 @@ import IterationSample from './IterationSample';
 import LifeCycleSample from './LifeCycleSample';
 import ErrorBoundary from './ErrorBoundary';
 import Counter from './Hooks/Counter';
+import Info from './Hooks/Info';
 
 // function getRandomColor() {
 //   return '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -35,7 +36,7 @@ import Counter from './Hooks/Counter';
 //   }
 // }
 const App = () => {
-  return <Counter />
+  return <Info />
 }
 
 export default App;
