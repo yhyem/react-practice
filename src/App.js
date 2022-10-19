@@ -39,7 +39,7 @@ import Average from './Hooks/Averag';
 const App = () => {
   //const [visible, setVisible] = useState(false);
   return (
-    <Average />
+    <Info />
     // <div>
     //   <button onClick={() => {
     //     setVisible(!visible);
