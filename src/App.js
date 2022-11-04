@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import EventPractice from './EventPractice'
 import ValidationSample from './ValidationSample'
-import { Component, useState, useRef, useCallback } from 'react';
+import { Component, useState, useRef, useCallback, useReducer } from 'react';
 import IterationSample from './IterationSample';
 import LifeCycleSample from './LifeCycleSample';
 import ErrorBoundary from './ErrorBoundary';
@@ -52,8 +52,25 @@ function createBulkTodos() {
   return array;
 }
 
+function todoReducer(todos, action) {
+  switch (action.type) {
+    case 'INSERT':
+      return todos.concat(action.todo);
+    case 'REMOVE':
+      return todos.filter(todo => todo.id !== action.id);
+    case 'TOGGLE':
+      return todos.map(todo =>
+        todo.id === action.id ? { ...todo, checked: !todo.checked }
+          : todo,
+      );
+    default:
+      return todos
+  }
+}
+
+
 const App = () => {
-  const [todos, setTodos] = useState(createBulkTodos)
+  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
 
   const nextId = useRef(2501);
   const onInsert = useCallback(
@@ -63,7 +80,7 @@ const App = () => {
         text,
         checked: false,
       };
-      setTodos(todos => todos.concat(todo));
+      dispatch({ type: 'INSERT', todo })
       nextId.current += 1;
     },
     [todos],
@@ -71,18 +88,15 @@ const App = () => {
 
   const onRemove = useCallback(
     id => {
-      setTodos(todos => todos.filter(todo => todo.id !== id));
+      dispatch({ type: 'REMOVE', id })
     },
     [todos],
   );
 
   const onToggle = useCallback(
     id => {
-      setTodos(todos =>
-        todos.map(todo =>
-          todo.id === id ? { ...todo, checked: !todo.checked } : todo),
-      );
-    }, [todos],
+      dispatch({ type: 'TOGGLE', id })
+    }, [],
   )
   //const [visible, setVisible] = useState(false);
   return (
