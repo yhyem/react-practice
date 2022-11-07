@@ -40,70 +40,149 @@ import TodoList from './TodoApp/TodoList';
 //   }
 // }
 
-function createBulkTodos() {
-  const array = [];
-  for (let i = 0; i <= 2500; i++) {
-    array.push({
-      id: i,
-      text: `할일 :${i}`,
-      checked: false,
-    });
-  }
-  return array;
-}
+// function createBulkTodos() {
+//   const array = [];
+//   for (let i = 0; i <= 2500; i++) {
+//     array.push({
+//       id: i,
+//       text: `할일 :${i}`,
+//       checked: false,
+//     });
+//   }
+//   return array;
+// }
 
-function todoReducer(todos, action) {
-  switch (action.type) {
-    case 'INSERT':
-      return todos.concat(action.todo);
-    case 'REMOVE':
-      return todos.filter(todo => todo.id !== action.id);
-    case 'TOGGLE':
-      return todos.map(todo =>
-        todo.id === action.id ? { ...todo, checked: !todo.checked }
-          : todo,
-      );
-    default:
-      return todos
-  }
-}
+// function todoReducer(todos, action) {
+//   switch (action.type) {
+//     case 'INSERT':
+//       return todos.concat(action.todo);
+//     case 'REMOVE':
+//       return todos.filter(todo => todo.id !== action.id);
+//     case 'TOGGLE':
+//       return todos.map(todo =>
+//         todo.id === action.id ? { ...todo, checked: !todo.checked }
+//           : todo,
+//       );
+//     default:
+//       return todos
+//   }
+// }
 
 
 const App = () => {
-  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
+  // const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
 
-  const nextId = useRef(2501);
-  const onInsert = useCallback(
-    text => {
-      const todo = {
+  // const nextId = useRef(2501);
+  // const onInsert = useCallback(
+  //   text => {
+  //     const todo = {
+  //       id: nextId.current,
+  //       text,
+  //       checked: false,
+  //     };
+  //     dispatch({ type: 'INSERT', todo })
+  //     nextId.current += 1;
+  //   },
+  //   [todos],
+  // );
+
+  // const onRemove = useCallback(
+  //   id => {
+  //     dispatch({ type: 'REMOVE', id })
+  //   },
+  //   [todos],
+  // );
+
+  // const onToggle = useCallback(
+  //   id => {
+  //     dispatch({ type: 'TOGGLE', id })
+  //   }, [],
+  // )
+  //const [visible, setVisible] = useState(false);
+
+  /* 12장 immer 예제 실습 */
+  const nextId = useRef(1);
+  const [form, setForm] = useState({ name: '', username: '' });
+  const [data, setData] = useState({
+    array: [],
+    uselessValue: null
+  });
+
+  const onChange = useCallback(
+    e => {
+      const { name, value } = e.target;
+      setForm({
+        ...form,
+        [name]: [value]
+      });
+    },
+    [form]
+  )
+
+  const onSubmit = useCallback(
+    e => {
+      e.preventDefault();
+      const info = {
         id: nextId.current,
-        text,
-        checked: false,
+        name: form.name,
+        username: form.username
       };
-      dispatch({ type: 'INSERT', todo })
+
+      setData({
+        ...data,
+        array: data.array.concat(info)
+      });
+
+      setForm({
+        name: '',
+        username: ''
+      });
       nextId.current += 1;
     },
-    [todos],
+    [data, form.name, form.username]
   );
 
   const onRemove = useCallback(
     id => {
-      dispatch({ type: 'REMOVE', id })
-    },
-    [todos],
-  );
-
-  const onToggle = useCallback(
-    id => {
-      dispatch({ type: 'TOGGLE', id })
-    }, [],
+      setData({
+        ...data,
+        array: data.array.filter(info => info.id !== id)
+      });
+    }, [data]
   )
-  //const [visible, setVisible] = useState(false);
+
   return (
-    <TodoTemplate>
-      <TodoInsert onInsert={onInsert} />
-      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
-    </TodoTemplate>
+    <div>
+      <form onSubmit={onSubmit}>
+        <input
+          name="username"
+          placeholder='id'
+          value={form.username}
+          onChange={onChange}
+        ></input>
+        <input
+          name="name"
+          placeholder='name'
+          value={form.name}
+          onChange={onChange}
+        ></input>
+        <button type="submit">등록</button>
+      </form>
+      <div>
+        <ul>
+          {data.array.map(info => (
+            <li key={info.id} onClick={() => onRemove(info.id)}>
+              {info.username} ({info.name})
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    // <TodoTemplate>
+    //   <TodoInsert onInsert={onInsert} />
+    //   <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
+    // </TodoTemplate>
   )
 
 }
