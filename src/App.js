@@ -16,7 +16,7 @@ import TodoList from './TodoApp/TodoList';
 import { Route, Link } from 'react-router-dom';
 import Home from './Router/Home';
 import About from './Router/About';
-import Profile from './Router/Profile';
+import Profiles from './Router/Profiles';
 
 // function getRandomColor() {
 //   return '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -201,17 +201,14 @@ const App = () => {
           <Link to='/about'>소개</Link>
         </li>
         <li>
-          <Link to='/profile/velopert'>velpoert 프로필</Link>
-        </li>
-        <li>
-          <Link to='/profile/gildong'>gildong 프로필</Link>
+          <Link to='/profiles'>프로필</Link>
         </li>
       </ul>
       <hr />
       <Route path='/' component={Home} exact={true} />
       <Route path={['/about', '/info']} component={About} />
-      <Route path="/profile/:username" component={Profile} />
-    </div>
+      <Route path="/profiles" component={Profiles} />
+    </div >
   )
 
 }
