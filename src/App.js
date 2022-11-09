@@ -13,6 +13,9 @@ import Average from './Hooks/Averag';
 import TodoTemplate from './TodoApp/TodoTemplate';
 import TodoInsert from './TodoApp/TodoInsert';
 import TodoList from './TodoApp/TodoList';
+import { Route, Link } from 'react-router-dom';
+import Home from './Router/Home';
+import About from './Router/About';
 
 // function getRandomColor() {
 //   return '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -102,91 +105,105 @@ const App = () => {
   //const [visible, setVisible] = useState(false);
 
   /* 12장 immer 예제 실습 */
-  const nextId = useRef(1);
-  const [form, setForm] = useState({ name: '', username: '' });
-  const [data, setData] = useState({
-    array: [],
-    uselessValue: null
-  });
+  // const nextId = useRef(1);
+  // const [form, setForm] = useState({ name: '', username: '' });
+  // const [data, setData] = useState({
+  //   array: [],
+  //   uselessValue: null
+  // });
 
-  const onChange = useCallback(
-    e => {
-      const { name, value } = e.target;
-      setForm(
-        produce(form, draft => {
-          draft[name] = value;
-        })
-      );
-    },
-    [form]
-  )
+  // const onChange = useCallback(
+  //   e => {
+  //     const { name, value } = e.target;
+  //     setForm(
+  //       produce(form, draft => {
+  //         draft[name] = value;
+  //       })
+  //     );
+  //   },
+  //   [form]
+  // )
 
-  const onSubmit = useCallback(
-    e => {
-      e.preventDefault();
-      const info = {
-        id: nextId.current,
-        name: form.name,
-        username: form.username
-      };
+  // const onSubmit = useCallback(
+  //   e => {
+  //     e.preventDefault();
+  //     const info = {
+  //       id: nextId.current,
+  //       name: form.name,
+  //       username: form.username
+  //     };
 
-      setData(
-        produce(data, draft => {
-          draft.array.push(info)
-        })
-      );
+  //     setData(
+  //       produce(data, draft => {
+  //         draft.array.push(info)
+  //       })
+  //     );
 
-      setForm({
-        name: '',
-        username: ''
-      });
-      nextId.current += 1;
-    },
-    [data, form.name, form.username]
-  );
+  //     setForm({
+  //       name: '',
+  //       username: ''
+  //     });
+  //     nextId.current += 1;
+  //   },
+  //   [data, form.name, form.username]
+  // );
 
-  const onRemove = useCallback(
-    id => {
-      setData(
-        produce(data, draft => {
-          draft.array.splice(draft.array.findIndex(info => info.id === id), 1)
-        })
-      );
-    }, [data]
-  )
+  // const onRemove = useCallback(
+  //   id => {
+  //     setData(
+  //       produce(data, draft => {
+  //         draft.array.splice(draft.array.findIndex(info => info.id === id), 1)
+  //       })
+  //     );
+  //   }, [data]
+  // )
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input
-          name="username"
-          placeholder='id'
-          value={form.username}
-          onChange={onChange}
-        ></input>
-        <input
-          name="name"
-          placeholder='name'
-          value={form.name}
-          onChange={onChange}
-        ></input>
-        <button type="submit">등록</button>
-      </form>
-      <div>
-        <ul>
-          {data.array.map(info => (
-            <li key={info.id} onClick={() => onRemove(info.id)}>
-              {info.username} ({info.name})
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    //   <div>
+    //     <form onSubmit={onSubmit}>
+    //       <input
+    //         name="username"
+    //         placeholder='id'
+    //         value={form.username}
+    //         onChange={onChange}
+    //       ></input>
+    //       <input
+    //         name="name"
+    //         placeholder='name'
+    //         value={form.name}
+    //         onChange={onChange}
+    //       ></input>
+    //       <button type="submit">등록</button>
+    //     </form>
+    //     <div>
+    //       <ul>
+    //         {data.array.map(info => (
+    //           <li key={info.id} onClick={() => onRemove(info.id)}>
+    //             {info.username} ({info.name})
+    //           </li>
+    //         ))}
+    //       </ul>
+    //     </div>
+    //   </div>
 
     // <TodoTemplate>
     //   <TodoInsert onInsert={onInsert} />
     //   <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
     // </TodoTemplate>
+
+    <div>
+      <ul>
+        <li>
+          <Link to='/'>홈</Link>
+        </li>
+        <li>
+          <Link to='/about'>소개</Link>
+        </li>
+      </ul>
+      <hr />
+      <Route path='/' component={Home} exact={true} />
+      <Route path={['/about', '/info']} component={About} />
+    </div>
   )
 
 }
