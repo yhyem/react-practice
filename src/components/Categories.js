@@ -63,9 +63,9 @@ const Category = styled.div`
 const Categories = () => {
     return (
         <CategoriesBlock>
-            {categories.map(c => {
-                <Category key={c.name}>{c.text}뭐얀고</Category>
-            })}
+            {categories.map(c => (
+                <Category key={c.name}>{c.text}</Category>
+            ))}
         </CategoriesBlock>
     )
 }
