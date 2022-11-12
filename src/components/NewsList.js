@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import NewsItem from "./NewsItem";
 import axios from 'axios';
+const apiKey = process.env.REACT_APP_API_KEY;
 
 const NewsListBlock = styled.div`
     box-sizing: border-box;
@@ -29,10 +30,11 @@ const NewsList = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoadings(true);
+            setLoading(true);
+            console.log(process.env.REACT_APP_API_KEY)
             try {
                 const response = await axios.get(
-                    'https://newsapi.org/v2/top-headlines?country=kr&apiKey=%REACT_APP_API_KEY%',
+                    'https://newsapi.org/v2/top-headlines?country=kr&apiKey=%REACT_APP_API_KEY%'
                 );
                 setArticles(response.data.articles);
             } catch (e) {
